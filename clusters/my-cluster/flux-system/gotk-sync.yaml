@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/kflynn/gitops-linkerd
+  url: ssh://git@github.com/Hpark11/gitops-linkerd
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
