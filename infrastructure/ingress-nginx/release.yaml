@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: ingress-nginx
 spec:
-  interval: 30m
+  interval: 5m
   chart:
     spec:
       chart: ingress-nginx
@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
-      interval: 12h
+      interval: 1m
   values:
     controller:
       service:
