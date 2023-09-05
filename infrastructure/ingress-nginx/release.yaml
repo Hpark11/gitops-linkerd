@@ -1,18 +1,52 @@
 ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: ingress-nginx
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: ingress-nginx
+#       version: "*"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: ingress-nginx
+#       interval: 1m
+#   values:
+#     controller:
+#       service:
+#         type: LoadBalancer
+#         nodePorts:
+#           http: 32080
+#           https: 32443
+#       podAnnotations:
+#         linkerd.io/inject: enabled
+#     metrics:
+#       port: 10254
+#       enabled: true
+#       service:
+#         annotations:
+#           prometheus.io/scrape: "true"
+#           prometheus.io/port: "10254"
+
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ingress-nginx
+  name: nginx-ingress-controller
+  namespace: nginx-ingress-controller
 spec:
-  interval: 5m
   chart:
     spec:
-      chart: ingress-nginx
-      version: "*"
+      chart: nginx-ingress-controller
+      version: 9.x
       sourceRef:
         kind: HelmRepository
-        name: ingress-nginx
-      interval: 1m
+        name: bitnami
+        namespace: flux-system
+  interval: 15m
+  timeout: 5m
+  releaseName: nginx-ingress-controller
   values:
     controller:
       service:
@@ -29,3 +63,7 @@ spec:
         annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "10254"
+  # valuesFrom:
+  # - kind: ConfigMap
+  #   name: nginx-ingress-controller-helm-chart-value-overrides
+  #   valuesKey: values.yaml # This is the default, but best to be explicit for clarity
