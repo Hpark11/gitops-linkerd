@@ -1,8 +1,17 @@
+# apiVersion: kustomize.config.k8s.io/v1beta1
+# kind: Kustomization
+# namespace: nginx-ingress-controller
+# resources:
+#   - namespace.yaml
+#   - repository.yaml
+#   - release.yaml
+#   - configmap-nginx-ingress-controller-helm-chart-value-overrides.yaml
+
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: nginx-ingress-controller
+namespace: flux-system
 resources:
-  - namespace.yaml
   - repository.yaml
+  - namespace.yaml
   - release.yaml
-  - configmap-nginx-ingress-controller-helm-chart-value-overrides.yaml
+  # - ingress-nginx.yaml
