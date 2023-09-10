@@ -13,16 +13,23 @@ spec:
     port: 80
     targetPort: http
   analysis:
+    # every 10 seconds
     interval: 10s
+    # under 70 percent THREE thimes across entire rollout, we will give up and roll it back
     threshold: 3
+    # once we hit 50 percent with everything working well, we will call it good and then cut the other 50 overall
     maxWeight: 50
+    # we will add 5 percent to the fraction of traffic that we're sending
     stepWeight: 5
     metrics:
       - name: request-success-rate
         thresholdRange:
+          # we require it to stay above 70 percent
           min: 70
         interval: 1m
     webhooks:
+      # rather than rely on the user to provide load, we will actually use flagger's load tester to go and supply load, so that we
+      # can make sure that we're getting traffic to measure things with
       - name: load-test
         type: rollout
         url: http://flagger-loadtester.flagger-system/
